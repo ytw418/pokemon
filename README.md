@@ -2,7 +2,7 @@
 
 domain Link
 
-Open [포켓몬 도감 링크](pokemon-holicreact.vercel.app)
+Open [포켓몬 도감 링크](https://pokemon-holicreact.vercel.app)
 
 # pokemon-holicreact.vercel.app
 

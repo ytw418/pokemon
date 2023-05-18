@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useSWRInfinite from "swr/infinite";
 
@@ -17,6 +19,16 @@ interface PokemonList {
 
 export default function Home() {
   const [hasMore, setHasMore] = useState<boolean>(true);
+  const router = useRouter();
+  const { register, handleSubmit } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      search: "",
+    },
+  });
+  const handleSearch = async ({ search }: { search: string }) => {
+    router.push(`/pokemon/${search}`);
+  };
 
   const getKey = (pageIndex: number, previousPageData: any) => {
     console.log("pageIndex :>> ", pageIndex);
@@ -40,6 +52,33 @@ export default function Home() {
   console.log("error :>> ", error);
   return (
     <main className="w-[967px] mx-auto flex flex-col">
+      <form
+        onSubmit={handleSubmit(handleSearch)}
+        className="SEARCH_FORM flex w-[967px] mx-auto items-center justify-center h-[80px]"
+      >
+        <input
+          {...register("search", {
+            required: true,
+            minLength: {
+              value: 2,
+              message: "Minimum length is 2",
+            },
+            maxLength: {
+              value: 20,
+              message: "Maximum length is 20",
+            },
+          })}
+          type="text"
+          className="SEARCH_INPUT w-full mx-5 p-1 rounded"
+          placeholder="pokemon name or number Search here"
+        />
+        <button
+          type="submit"
+          className="SEARCH_BUTTON w-full h-11 bg-slate-500 text-white rounded"
+        >
+          Search
+        </button>
+      </form>
       <InfiniteScroll
         className="flex flex-wrap px-32 justify-between"
         dataLength={data?.length ?? 20}

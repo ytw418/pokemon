@@ -60,8 +60,8 @@ export default function Home() {
           {...register("search", {
             required: true,
             minLength: {
-              value: 2,
-              message: "Minimum length is 2",
+              value: 1,
+              message: "Minimum length is 1",
             },
             maxLength: {
               value: 20,
